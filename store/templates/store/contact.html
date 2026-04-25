@@ -1,0 +1,41 @@
+{% extends 'store/base.html' %}
+
+{% block title %}اتصل بنا - إقامتكي{% endblock %}
+
+{% block extra_style %}
+.social-card { border: none; border-radius: 20px; padding: 40px; text-align: center; transition: transform 0.3s; color: white; }
+.social-card:hover { transform: translateY(-8px); }
+.facebook { background: linear-gradient(135deg, #1877f2, #0d5dbf); }
+.instagram { background: linear-gradient(135deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888); }
+.icon-social { font-size: 60px; margin-bottom: 15px; }
+{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+  <div class="text-center mb-5">
+    <h2 class="fw-bold" style="color:#c2185b;">📞 اتصل بنا</h2>
+    <p class="text-muted lead">تواصلي معنا عبر وسائل التواصل الاجتماعي</p>
+  </div>
+
+  <div class="row g-4 justify-content-center mb-5">
+    <div class="col-md-4">
+      <a href="https://www.facebook.com/share/1Dof8sNszV/" target="_blank" style="text-decoration:none;">
+        <div class="social-card facebook">
+          <div class="icon-social">📘</div>
+          <h4 class="fw-bold">Facebook</h4>
+          <p>تابعينا على فيسبوك</p>
+        </div>
+      </a>
+    </div>
+    <div class="col-md-4">
+      <a href="https://www.instagram.com/marwamim792?igsh=MTE4Y243OG5uZmYzbA%3D%3D" target="_blank" style="text-decoration:none;">
+        <div class="social-card instagram">
+          <div class="icon-social">📸</div>
+          <h4 class="fw-bold">Instagram</h4>
+          <p>تابعينا على انستغرام</p>
+        </div>
+      </a>
+    </div>
+  </div>
+</div>
+{% endblock %}

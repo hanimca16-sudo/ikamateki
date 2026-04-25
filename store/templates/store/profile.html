@@ -1,0 +1,70 @@
+{% extends 'store/base.html' %}
+
+{% block title %}حسابي - إقامتكي{% endblock %}
+
+{% block extra_style %}
+.profile-card { background: white; border: none; border-radius: 20px; padding: 30px; box-shadow: 0 5px 20px rgba(194,24,91,0.1); }
+.form-control { border-radius: 12px; padding: 12px; border: 2px solid #f8bbd9; font-size: 15px; }
+.form-control:focus { border-color: #c2185b; box-shadow: none; }
+.btn-save { background: linear-gradient(135deg, #c2185b, #e91e8c); color: white; border: none; border-radius: 12px; padding: 12px 0; width: 100%; font-weight: 700; }
+.btn-save:hover { background: linear-gradient(135deg, #ad1457, #c2185b); color: white; }
+.btn-password { background: #fff0f5; color: #c2185b; border: 2px solid #f8bbd9; border-radius: 12px; padding: 12px 0; width: 100%; font-weight: 700; }
+.btn-password:hover { background: #fce4ec; }
+{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+  <h3 class="fw-bold mb-4" style="color:#c2185b;">👤 حسابي</h3>
+
+  {% if error %}
+  <div class="alert alert-danger">{{ error }}</div>
+  {% endif %}
+  {% if success %}
+  <div class="alert alert-success">{{ success }}</div>
+  {% endif %}
+
+  <div class="row g-4">
+    <div class="col-md-6">
+      <div class="profile-card">
+        <h5 class="fw-bold mb-3" style="color:#c2185b;">📝 المعلومات الشخصية</h5>
+        <form method="POST">
+          {% csrf_token %}
+          <input type="hidden" name="action" value="update_info">
+          <div class="mb-3">
+            <label class="form-label fw-bold">الاسم</label>
+            <input type="text" name="first_name" class="form-control" value="{{ request.user.first_name }}">
+          </div>
+          <div class="mb-3">
+            <label class="form-label fw-bold">اللقب</label>
+            <input type="text" name="last_name" class="form-control" value="{{ request.user.last_name }}">
+          </div>
+          <div class="mb-3">
+            <label class="form-label fw-bold">البريد الإلكتروني</label>
+            <input type="email" name="email" class="form-control" value="{{ request.user.email }}">
+          </div>
+          <button type="submit" class="btn btn-save">حفظ المعلومات 💾</button>
+        </form>
+      </div>
+    </div>
+
+    <div class="col-md-6">
+      <div class="profile-card">
+        <h5 class="fw-bold mb-3" style="color:#c2185b;">🔒 تغيير كلمة المرور</h5>
+        <form method="POST">
+          {% csrf_token %}
+          <input type="hidden" name="action" value="change_password">
+          <div class="mb-3">
+            <label class="form-label fw-bold">كلمة المرور القديمة</label>
+            <input type="password" name="old_password" class="form-control" required>
+          </div>
+          <div class="mb-3">
+            <label class="form-label fw-bold">كلمة المرور الجديدة</label>
+            <input type="password" name="new_password" class="form-control" required>
+          </div>
+          <button type="submit" class="btn btn-save">تغيير كلمة المرور 🔑</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

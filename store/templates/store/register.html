@@ -1,0 +1,43 @@
+{% extends 'store/base.html' %}
+
+{% block title %}إنشاء حساب - إقامتكي{% endblock %}
+
+{% block extra_style %}
+.register-card { background: white; border: none; border-radius: 20px; padding: 40px; box-shadow: 0 5px 20px rgba(194,24,91,0.1); }
+.form-control { border-radius: 12px; padding: 12px; border: 2px solid #f8bbd9; font-size: 15px; }
+.form-control:focus { border-color: #c2185b; box-shadow: none; }
+.btn-register { background: linear-gradient(135deg, #c2185b, #e91e8c); color: white; border: none; border-radius: 12px; padding: 12px 0; width: 100%; font-size: 16px; font-weight: 900; }
+.btn-register:hover { background: linear-gradient(135deg, #ad1457, #c2185b); color: white; }
+{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-5">
+      <div class="register-card">
+        <h3 class="fw-bold mb-4 text-center" style="color:#c2185b;">إنشاء حساب جديد 💗</h3>
+        {% if error %}
+        <div class="alert alert-danger">{{ error }}</div>
+        {% endif %}
+        <form method="POST">
+          {% csrf_token %}
+          <div class="mb-3">
+            <label class="form-label fw-bold">اسم المستخدم</label>
+            <input type="text" name="username" class="form-control" required>
+          </div>
+          <div class="mb-3">
+            <label class="form-label fw-bold">البريد الإلكتروني</label>
+            <input type="email" name="email" class="form-control" required>
+          </div>
+          <div class="mb-3">
+            <label class="form-label fw-bold">كلمة المرور</label>
+            <input type="password" name="password" class="form-control" required>
+          </div>
+          <button type="submit" class="btn btn-register">إنشاء حساب</button>
+        </form>
+        <p class="text-center mt-3">لديك حساب؟ <a href="/accounts/login/" style="color:#c2185b;">تسجيل الدخول</a></p>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

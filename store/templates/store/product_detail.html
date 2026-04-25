@@ -1,0 +1,55 @@
+{% extends 'store/base.html' %}
+
+{% block title %}{{ product.title }} - إقامتكي{% endblock %}
+
+{% block extra_style %}
+.product-card { background: white; border: none; border-radius: 20px; padding: 25px; box-shadow: 0 5px 15px rgba(194,24,91,0.08); }
+.product-img { border-radius: 15px; width: 100%; object-fit: cover; max-height: 400px; }
+.price-tag { font-size: 32px; font-weight: 900; color: #c2185b; }
+.info-box { background: #fff0f5; border-radius: 15px; padding: 15px; margin-top: 15px; }
+.btn-cart { background: linear-gradient(135deg, #c2185b, #e91e8c); color: white; border: none; border-radius: 12px; padding: 12px 0; width: 100%; font-size: 16px; font-weight: 900; }
+.btn-cart:hover { background: linear-gradient(135deg, #ad1457, #c2185b); color: white; }
+{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+  <a href="javascript:history.back()" class="btn btn-outline-secondary btn-sm mb-3">← رجوع</a>
+  <div class="row g-4">
+    <div class="col-md-5">
+      {% if product.image %}
+      <img src="{{ product.image.url }}" class="product-img">
+      {% else %}
+      <div style="height:400px; background:#fce4ec; border-radius:15px; display:flex; align-items:center; justify-content:center; font-size:80px;">🛍️</div>
+      {% endif %}
+    </div>
+    <div class="col-md-7">
+      <div class="product-card">
+        <h2 class="fw-bold mb-2">{{ product.title }}</h2>
+        <p class="text-muted mb-3">{{ product.description }}</p>
+        <div class="price-tag mb-3">{{ product.price }} DA</div>
+
+        <div class="mb-3">
+          {% if product.shipping == 'available' %}
+          <span class="badge bg-success p-2">✅ شحن متوفر</span>
+          {% elif product.shipping == 'local' %}
+          <span class="badge bg-warning p-2">📦 شحن جزئي</span>
+          {% elif product.shipping == 'not_available' %}
+          <span class="badge bg-danger p-2">❌ بدون شحن</span>
+          {% endif %}
+          <span class="badge p-2" style="background:#fce4ec; color:#c2185b;">📦 المخزون: {{ product.stock }}</span>
+        </div>
+
+        <div class="info-box">
+          <p class="fw-bold mb-1">👤 {{ product.seller.username }}</p>
+          {% if product.wilaya %}<p class="mb-1">📍 {{ product.wilaya }}</p>{% endif %}
+          {% if product.phone %}<p class="mb-0">📞 {{ product.phone }}</p>{% endif %}
+        </div>
+
+        {% if user == product.seller %}
+        <a href="/delete-product/{{ product.pk }}/" class="btn btn-outline-danger w-100 mt-3" onclick="return confirm('حذف المنتج؟')">🗑️ حذف المنتج</a>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

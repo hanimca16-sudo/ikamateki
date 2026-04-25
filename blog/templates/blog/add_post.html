@@ -1,0 +1,44 @@
+{% extends 'store/base.html' %}
+
+{% block title %}إضافة منشور - إقامتكي{% endblock %}
+
+{% block extra_style %}
+.add-card { background: white; border: none; border-radius: 20px; padding: 30px; box-shadow: 0 5px 20px rgba(194,24,91,0.1); }
+.form-control, .form-select { border-radius: 12px; padding: 12px; border: 2px solid #f8bbd9; font-size: 15px; }
+.form-control:focus, .form-select:focus { border-color: #c2185b; box-shadow: none; }
+.btn-publish { background: linear-gradient(135deg, #c2185b, #e91e8c); color: white; border: none; border-radius: 12px; padding: 12px 0; width: 100%; font-size: 16px; font-weight: 900; }
+{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <div class="add-card">
+        <h4 class="fw-bold mb-4" style="color:#c2185b;">📝 إضافة منشور جديد</h4>
+        <form method="POST" enctype="multipart/form-data">
+          {% csrf_token %}
+          <div class="mb-3">
+            <label class="form-label fw-bold">المنشور</label>
+            <textarea name="content" class="form-control" rows="4" placeholder="اكتبي منشورك هنا..." required></textarea>
+          </div>
+          <div class="mb-3">
+            <label class="form-label fw-bold">الإقامة</label>
+            <select name="residence" class="form-control" required>
+              <option value="1" {% if request.GET.residence == '1' %}selected{% endif %}>🏢 إقامة 1</option>
+              <option value="2" {% if request.GET.residence == '2' %}selected{% endif %}>🏢 إقامة 2</option>
+              <option value="3" {% if request.GET.residence == '3' %}selected{% endif %}>🏢 إقامة 3</option>
+              <option value="outside" {% if request.GET.residence == 'outside' %}selected{% endif %}>🌍 خارج الإقامة</option>
+            </select>
+          </div>
+          <div class="mb-3">
+            <label class="form-label fw-bold">صورة <span class="text-muted fw-normal">(اختياري)</span></label>
+            <input type="file" name="image" class="form-control">
+          </div>
+          <button type="submit" class="btn btn-publish">نشر 💗</button>
+          <a href="javascript:history.back()" class="btn btn-outline-secondary w-100 mt-2">إلغاء</a>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

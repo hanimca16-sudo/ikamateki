@@ -1,0 +1,57 @@
+{% extends 'store/base.html' %}
+
+{% block title %}من نحن - إقامتكي{% endblock %}
+
+{% block extra_style %}
+.hero-about { background: linear-gradient(135deg, #f8bbd9, #fce4ec); padding: 60px 20px; text-align: center; }
+.hero-about h1 { color: #c2185b; font-weight: 900; font-size: 36px; }
+.feature-card { background: white; border: none; border-radius: 20px; padding: 30px; text-align: center; box-shadow: 0 5px 15px rgba(194,24,91,0.08); transition: transform 0.3s; }
+.feature-card:hover { transform: translateY(-5px); }
+.icon-big { font-size: 50px; margin-bottom: 15px; }
+{% endblock %}
+
+{% block content %}
+<div class="hero-about">
+  <h1>💗 إقامتكي</h1>
+  <p style="color:#880e4f; font-size:18px;">منصتك الخاصة في الإقامة الجامعية</p>
+</div>
+
+<div class="container mt-5">
+  <div class="row text-center mb-5">
+    <div class="col-12">
+      <h2 class="fw-bold" style="color:#c2185b;">من نحن؟</h2>
+      <p class="lead text-muted mt-3">
+        منصة رقمية تجمع بين التواصل وبيع وشراء المنتجات، صُممت لتسهيل الحياة اليومية داخل الإقامة الجامعية وخارجها. جاءت فكرة "إقامتكي" من الحاجة إلى مساحة بسيطة وآمنة يمكن من خلالها للطالبات مشاركة منشوراتهن، عرض منتجاتهن، أو العثور على ما يحتجنه بسهولة، دون تعقيد. توفر المنصة: مساحة لنشر المنشورات والتفاعل إمكانية بيع وشراء المنتجات بكل سهولة بيئة قريبة من حياة الإقامة الجامعية نهدف من خلال "إقامتكي" إلى بناء مجتمع متعاون، حيث يمكن للجميع الاستفادة، خاصة بنات الإقامة الجامعية، في جو من الثقة والبساطة. المنصة مفتوحة للجميع، لكنها موجهة بشكل خاص لدعم الطالبات وتسهيل تواصلهن وتبادل احتياجاتهن اليومية.
+      </p>
+    </div>
+  </div>
+
+  <div class="row g-4 mb-5">
+    <div class="col-md-4">
+      <div class="feature-card">
+        <div class="icon-big">📝</div>
+        <h4 class="fw-bold" style="color:#c2185b;">المنشورات</h4>
+        <p class="text-muted">شاركي أخبارك ولحظاتك مع زميلاتك في الإقامة</p>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="feature-card">
+        <div class="icon-big">🛍️</div>
+        <h4 class="fw-bold" style="color:#c2185b;">المنتجات</h4>
+        <p class="text-muted">بيعي واشتري المنتجات بسهولة داخل وخارج الإقامة</p>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="feature-card">
+        <div class="icon-big">💫</div>
+        <h4 class="fw-bold" style="color:#c2185b;">بيئة آمنة</h4>
+        <p class="text-muted">منصة آمنة ومخصصة للطالبات فقط</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="text-center mb-5">
+    <a href="/register/" class="btn btn-lg px-5" style="background:linear-gradient(135deg,#c2185b,#e91e8c); color:white; border-radius:20px; font-weight:700;">انضمي إلينا 💗</a>
+  </div>
+</div>
+{% endblock %}
