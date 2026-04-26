@@ -1,0 +1,107 @@
+{% extends 'store/base.html' %}
+
+{% block title %}اطلبي منتج - إقامتكي{% endblock %}
+
+{% block extra_style %}
+.hero-section { background: linear-gradient(135deg, #f8bbd9, #fce4ec); padding: 30px 20px; text-align: center; margin-bottom: 30px; }
+.hero-section h2 { color: #c2185b; font-weight: 900; }
+.calc-card { background: white; border: none; border-radius: 20px; padding: 25px; box-shadow: 0 5px 20px rgba(194,24,91,0.1); margin-bottom: 20px; }
+.form-control, .form-select { border-radius: 12px; padding: 12px; border: 2px solid #f8bbd9; font-size: 15px; }
+.form-control:focus, .form-select:focus { border-color: #c2185b; box-shadow: none; }
+.result-box { background: #fff0f5; border-radius: 15px; padding: 20px; text-align: center; margin-top: 15px; }
+.result-price { font-size: 36px; font-weight: 900; color: #c2185b; }
+.btn-order-now { background: linear-gradient(135deg, #c2185b, #e91e8c); color: white; border: none; border-radius: 12px; padding: 12px 40px; font-size: 16px; font-weight: 900; margin-top: 15px; }
+.btn-order { background: linear-gradient(135deg, #c2185b, #e91e8c); color: white; border: none; border-radius: 12px; padding: 14px 0; width: 100%; font-size: 18px; font-weight: 900; }
+.btn-order:hover { background: linear-gradient(135deg, #ad1457, #c2185b); color: white; }
+.step-badge { background: #c2185b; color: white; border-radius: 50%; width: 28px; height: 28px; display: inline-flex; align-items: center; justify-content: center; font-weight: 900; font-size: 13px; margin-left: 8px; }
+#order-form { display: none; }
+{% endblock %}
+
+{% block content %}
+<div class="hero-section">
+  <h2>🛍️ اطلبي منتجك من الخارج</h2>
+  <p style="color:#880e4f;">نشتري لكِ من Temu أو AliExpress وغيرها 💗</p>
+</div>
+
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+
+      <!-- حاسبة العملة -->
+      <div class="calc-card text-center">
+        <h5 class="fw-bold mb-3" style="color:#c2185b;">💱 حاسبة العملة</h5>
+        <div class="mb-3">
+          <select id="currency" class="form-select" onchange="calculate()">
+            <option value="220">🇺🇸 دولار (USD)</option>
+            <option value="245">🇪🇺 يورو (EUR)</option>
+          </select>
+        </div>
+        <div class="mb-3">
+          <input type="number" id="amount_calc" class="form-control text-center" placeholder="أدخلي المبلغ..." oninput="calculate()">
+        </div>
+        <div class="result-box" id="result_box" style="display:none;">
+          <p class="text-muted mb-1">السعر التقريبي بالدينار</p>
+          <div class="result-price" id="result_dzd">0 DA</div>
+          <small class="text-muted">* السعر تقريبي</small>
+          <br>
+          <button class="btn btn-order-now" onclick="showForm()">اطلبي الآن 💗</button>
+        </div>
+      </div>
+
+      <!-- نموذج الطلب -->
+      <div class="calc-card" id="order-form">
+        <h5 class="fw-bold mb-4" style="color:#c2185b;">📦 تفاصيل الطلب</h5>
+        <form method="POST">
+          {% csrf_token %}
+          <input type="hidden" name="currency" id="currency_hidden" value="USD">
+          <input type="hidden" name="amount" id="amount_hidden" value="0">
+          <div class="mb-3">
+            <label class="form-label fw-bold"><span class="step-badge">1</span> الاسم واللقب</label>
+            <input type="text" name="product_name" class="form-control" placeholder="اكتبي اسمك الكامل" required>
+          </div>
+          <div class="mb-3">
+            <label class="form-label fw-bold"><span class="step-badge">2</span> رابط المنتج</label>
+            <input type="url" name="product_url" class="form-control" placeholder="https://..." required>
+          </div>
+          <div class="mb-3">
+            <label class="form-label fw-bold"><span class="step-badge">3</span> الكمية</label>
+            <input type="number" name="quantity" class="form-control" placeholder="1" min="1" value="1" required>
+          </div>
+          <div class="mb-3">
+            <label class="form-label fw-bold"><span class="step-badge">4</span> عنوانك</label>
+            <input type="text" name="residence" class="form-control" placeholder="الولاية، البلدية..." required>
+          </div>
+          <div class="mb-3">
+            <label class="form-label fw-bold"><span class="step-badge">5</span> رقم الهاتف</label>
+            <input type="text" name="phone" class="form-control" placeholder="0555000000" required>
+          </div>
+          <button type="submit" class="btn btn-order">تأكيد الطلب 💗</button>
+        </form>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script>
+function calculate() {
+  const rate = parseFloat(document.getElementById('currency').value);
+  const amount = parseFloat(document.getElementById('amount_calc').value);
+  if (amount && rate) {
+    const dzd = (amount * rate).toFixed(0);
+    document.getElementById('result_dzd').innerText = parseInt(dzd).toLocaleString() + ' DA';
+    document.getElementById('result_box').style.display = 'block';
+  }
+}
+
+function showForm() {
+  const rate = parseFloat(document.getElementById('currency').value);
+  const amount = parseFloat(document.getElementById('amount_calc').value);
+  const currency = rate == 245 ? 'EUR' : 'USD';
+  document.getElementById('currency_hidden').value = currency;
+  document.getElementById('amount_hidden').value = amount;
+  document.getElementById('order-form').style.display = 'block';
+  document.getElementById('order-form').scrollIntoView({behavior: 'smooth'});
+}
+</script>
+{% endblock %}

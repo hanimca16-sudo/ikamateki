@@ -109,3 +109,40 @@ def profile(request):
         'error':   error,
         'success': success,
     })
+def import_order(request):
+    if request.method == 'POST':
+        if not request.user.is_authenticated:
+            return redirect('login')
+        from .models import ImportOrder
+        amount = float(request.POST['amount'])
+        currency = request.POST['currency']
+        rate = 245 if currency == 'EUR' else 220
+        amount_dzd = amount * rate
+        ImportOrder.objects.create(
+            user=request.user,
+            product_url=request.POST['product_url'],
+            product_name=request.POST['product_name'],
+            residence=request.POST['residence'],
+            phone=request.POST['phone'],
+            currency=currency,
+            amount=amount,
+            amount_dzd=amount_dzd,
+        )
+        return redirect('my_orders')
+    return render(request, 'store/import_order.html')
+
+@login_required
+def my_orders(request):
+    from .models import ImportOrder
+    orders = ImportOrder.objects.filter(user=request.user).order_by('-created_at')
+    return render(request, 'store/my_orders.html', {'orders': orders})
+
+@login_required
+def rate_order(request, pk):
+    from .models import ImportOrder
+    order = get_object_or_404(ImportOrder, pk=pk, user=request.user)
+    if request.method == 'POST':
+        order.rating = request.POST['rating']
+        order.save()
+        return redirect('my_orders')
+    return render(request, 'store/rate_order.html', {'order': order})

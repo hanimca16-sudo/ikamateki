@@ -12,4 +12,6 @@ urlpatterns = [
     path('contact/', views.contact, name='contact'),
     path('inbox/', views.inbox, name='inbox'),
 path('profile/', views.profile, name='profile'),
-]
+path('import/', views.import_order, name='import_order'),
+path('import/orders/', views.my_orders, name='my_orders'),
+path('import/rate/<int:pk>/', views.rate_order, name='rate_order'),]

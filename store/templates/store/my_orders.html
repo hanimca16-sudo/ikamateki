@@ -1,0 +1,95 @@
+{% extends 'store/base.html' %}
+
+{% block title %}طلباتي - إقامتكي{% endblock %}
+
+{% block extra_style %}
+.order-card { background: white; border: none; border-radius: 20px; padding: 25px; box-shadow: 0 5px 15px rgba(194,24,91,0.08); margin-bottom: 20px; }
+.status-bar { display: flex; justify-content: space-between; align-items: center; margin: 20px 0; flex-wrap: wrap; gap: 8px; }
+.status-step { text-align: center; flex: 1; min-width: 80px; }
+.status-icon { font-size: 24px; display: block; margin-bottom: 4px; }
+.status-label { font-size: 11px; color: #888; }
+.status-active .status-icon { background: #c2185b; border-radius: 50%; padding: 5px; }
+.status-active .status-label { color: #c2185b; font-weight: 700; }
+.status-done .status-label { color: #4caf50; }
+.btn-rate { background: linear-gradient(135deg, #c2185b, #e91e8c); color: white; border: none; border-radius: 12px; padding: 10px 25px; font-weight: 700; }
+.btn-new { background: linear-gradient(135deg, #c2185b, #e91e8c); color: white; border: none; border-radius: 20px; padding: 10px 25px; font-weight: 700; }
+{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h3 class="fw-bold" style="color:#c2185b;">📦 طلباتي</h3>
+    <a href="/import/" class="btn btn-new">+ طلب جديد</a>
+  </div>
+
+  {% if orders %}
+    {% for order in orders %}
+    <div class="order-card">
+      <div class="d-flex justify-content-between align-items-start flex-wrap gap-2">
+        <div>
+          <h5 class="fw-bold mb-1" style="color:#c2185b;">{{ order.product_name }}</h5>
+          <a href="{{ order.product_url }}" target="_blank" class="text-muted small">🔗 رابط المنتج</a>
+        </div>
+        <div class="text-end">
+          <div class="fw-bold" style="color:#c2185b;">{{ order.amount }} {{ order.currency }}</div>
+          <small class="text-muted">≈ {{ order.amount_dzd|floatformat:0 }} DA</small>
+        </div>
+      </div>
+
+      <div class="status-bar mt-3">
+        <div class="status-step {% if order.status == 'processing' %}status-active{% elif order.status != 'processing' %}status-done{% endif %}">
+          <span class="status-icon">⏳</span>
+          <div class="status-label">قيد المعالجة</div>
+        </div>
+        <div class="status-step {% if order.status == 'paid' %}status-active{% elif order.status in 'purchased,shipped,in_algeria,in_office,delivered' %}status-done{% endif %}">
+          <span class="status-icon">💰</span>
+          <div class="status-label">تم الدفع</div>
+        </div>
+        <div class="status-step {% if order.status == 'purchased' %}status-active{% elif order.status in 'shipped,in_algeria,in_office,delivered' %}status-done{% endif %}">
+          <span class="status-icon">✅</span>
+          <div class="status-label">تمت الشراء</div>
+        </div>
+        <div class="status-step {% if order.status == 'shipped' %}status-active{% elif order.status in 'in_algeria,in_office,delivered' %}status-done{% endif %}">
+          <span class="status-icon">✈️</span>
+          <div class="status-label">خروج من البلد</div>
+        </div>
+        <div class="status-step {% if order.status == 'in_algeria' %}status-active{% elif order.status in 'in_office,delivered' %}status-done{% endif %}">
+          <span class="status-icon">🇩🇿</span>
+          <div class="status-label">دخل الجزائر</div>
+        </div>
+        <div class="status-step {% if order.status == 'in_office' %}status-active{% elif order.status == 'delivered' %}status-done{% endif %}">
+          <span class="status-icon">🏢</span>
+          <div class="status-label">في المكتب</div>
+        </div>
+        <div class="status-step {% if order.status == 'delivered' %}status-active{% endif %}">
+          <span class="status-icon">⭐</span>
+          <div class="status-label">تم الاستلام</div>
+        </div>
+      </div>
+
+      {% if order.status == 'in_office' %}
+      <div class="text-center mt-3">
+        <a href="/import/rate/{{ order.pk }}/" class="btn btn-rate">تأكيد الاستلام والتقييم ⭐</a>
+      </div>
+      {% endif %}
+
+      {% if order.rating %}
+      <div class="text-center mt-2">
+        <span style="color:#FFD700; font-size:20px;">
+          {% for i in "12345" %}{% if forloop.counter <= order.rating %}⭐{% endif %}{% endfor %}
+        </span>
+      </div>
+      {% endif %}
+
+      <small class="text-muted">📍 {{ order.residence }} | 📞 {{ order.phone }} | {{ order.created_at|date:"Y/m/d" }}</small>
+    </div>
+    {% endfor %}
+  {% else %}
+  <div class="text-center mt-5">
+    <div style="font-size:60px;">📦</div>
+    <h5 class="mt-3" style="color:#c2185b;">لا توجد طلبات بعد</h5>
+    <a href="/import/" class="btn btn-new mt-2">اطلبي أول منتج 💗</a>
+  </div>
+  {% endif %}
+</div>
+{% endblock %}
