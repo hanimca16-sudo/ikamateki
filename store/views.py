@@ -9,6 +9,8 @@ def home(request):
     return render(request, 'store/home.html')
 
 def product_list(request, residence):
+    if not request.user.is_authenticated:
+        return redirect('login')
     products = Product.objects.filter(residence=residence, stock__gt=0).order_by('-created_at')
     residence_names = {
         '1': 'إقامة 1',

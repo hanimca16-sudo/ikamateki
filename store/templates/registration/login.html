@@ -8,6 +8,8 @@
 .form-control:focus { border-color: #c2185b; box-shadow: none; }
 .btn-login { background: linear-gradient(135deg, #c2185b, #e91e8c); color: white; border: none; border-radius: 12px; padding: 12px 0; width: 100%; font-size: 16px; font-weight: 900; }
 .btn-login:hover { background: linear-gradient(135deg, #ad1457, #c2185b); color: white; }
+.btn-google { background: white; border: 2px solid #f8bbd9; border-radius: 12px; padding: 12px 0; width: 100%; font-size: 15px; font-weight: 700; color: #333; }
+.btn-google:hover { background: #fff0f5; border-color: #c2185b; }
 {% endblock %}
 
 {% block content %}
@@ -28,6 +30,13 @@
           </div>
           <button type="submit" class="btn btn-login">دخول</button>
         </form>
+        <div class="text-center my-3">
+          <span class="text-muted">— أو —</span>
+        </div>
+        <a href="/accounts/google/google/login/" class="btn btn-google d-flex align-items-center justify-content-center gap-2">
+          <img src="https://www.google.com/favicon.ico" width="20">
+          تسجيل الدخول بـ Google
+        </a>
         <p class="text-center mt-3">ليس لديك حساب؟ <a href="/register/" style="color:#c2185b;">إنشاء حساب</a></p>
       </div>
     </div>

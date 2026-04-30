@@ -3,6 +3,8 @@ from django.contrib.auth.decorators import login_required
 from .models import Post, Comment, Message
 
 def post_list(request, residence):
+    if not request.user.is_authenticated:
+        return redirect('login')
     posts = Post.objects.filter(residence=residence).order_by('-created_at')
     residence_names = {
         '1': 'إقامة 1',
@@ -16,7 +18,7 @@ def post_list(request, residence):
         'residence': residence,
         'residence_name': residence_name,
     })
-
+    
 def post_detail(request, pk):
     post = get_object_or_404(Post, pk=pk)
     comments = post.comments.all()
